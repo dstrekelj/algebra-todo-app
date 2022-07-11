@@ -1,8 +1,10 @@
 import { ItemForm as Component } from "./ItemForm.component";
 import { useState } from "react";
 
+const initialState = { item: '' };
+
 export function ItemForm(props) {
-  const [ state, setState ] = useState({ item: '' });
+  const [ state, setState ] = useState(initialState);
 
   const updateState = (event) => {
     setState((state) => ({
@@ -17,7 +19,7 @@ export function ItemForm(props) {
       props.onSubmit(state);
     }
 
-    setState({ item: '' });
+    setState(initialState);
   }
 
   return (
