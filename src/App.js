@@ -19,10 +19,21 @@ function App() {
     };
   }
 
+  const markItemAsDone = (markedItem) => {
+    return () => {
+      markedItem.toggleDone();
+      setItems((state) => [ ...state ]);
+    };
+  }
+
   return (
     <div>
       <ItemForm onSubmit={addItem} />
-      <ItemList items={items} onDelete={deleteItem} />
+      <ItemList
+        items={items}
+        onDelete={deleteItem}
+        onMarkAsDone={markItemAsDone}
+      />
     </div>
   );
 }
