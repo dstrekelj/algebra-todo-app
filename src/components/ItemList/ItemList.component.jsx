@@ -35,17 +35,21 @@ export function ItemList() {
     </div>
   ));
 
+  const totalItemsCount = context.items.length;
+  const completedItemsCount = context.getItems({ completed: true }).length;
+  const openItemsCount = totalItemsCount - completedItemsCount;
+
   return (
     <div>
       <div>
         <button onClick={updateQuery} name="completed" value="">
-          All items
+          All items ({totalItemsCount}) {queryState.completed === null && '(Active)'}
         </button>
         <button onClick={updateQuery} name="completed" value="true">
-          Completed items
+          Completed items ({completedItemsCount}) {queryState.completed === true && '(Active)'}
         </button>
         <button onClick={updateQuery} name="completed" value="false">
-          Open items
+          Open items ({openItemsCount}) {queryState.completed === false && '(Active)'}
         </button>
       </div>
       <div>
