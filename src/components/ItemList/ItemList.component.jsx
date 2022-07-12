@@ -3,7 +3,9 @@ export function ItemList(props) {
     <div key={item.id}>
       <input type="checkbox" name="" id="" />
       <span>{item.text} ({item.displayCreatedAt()})</span>
-      <button type="button">Delete</button>
+      <button type="button" onClick={props.onDelete(item)}>
+        Delete
+      </button>
     </div>
   ));
 

@@ -11,10 +11,18 @@ function App() {
     setItems((state) => [ ...state, item ]);
   }
 
+  const deleteItem = (deletedItem) => {
+    return () => {
+      setItems((state) => state.filter(
+        item => item.id !== deletedItem.id
+      ));
+    };
+  }
+
   return (
     <div>
       <ItemForm onSubmit={addItem} />
-      <ItemList items={items} />
+      <ItemList items={items} onDelete={deleteItem} />
     </div>
   );
 }
