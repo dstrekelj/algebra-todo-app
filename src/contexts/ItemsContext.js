@@ -26,11 +26,22 @@ export function ItemsProvider(props) {
     };
   }
 
+  const getItems = ({ completed }) => {
+    if (completed === true) {
+      return items.filter(item => item.isDone);
+    } else if (completed === false) {
+      return items.filter(item => !item.isDone);
+    } else {
+      return items;
+    }
+  }
+
   const value = {
     items,
     addItem,
     deleteItem,
     markItemAsDone,
+    getItems,
   };
 
   return (

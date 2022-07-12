@@ -1,10 +1,25 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ItemsContext } from "../../contexts/ItemsContext";
 
 export function ItemList() {
   const context = useContext(ItemsContext);
+  const [queryState, setQueryState] = useState({});
 
-  const itemElements = context.items.map((item) => (
+  const updateQuery = (event) => {
+    let value = null;
+
+    if (event.target.value === "true") {
+      value = true;
+    } else if (event.target.value === "false") {
+      value = false;
+    }
+
+    setQueryState((state) => ({
+      ...state, [event.target.name]: value
+    }));
+  }
+
+  const itemElements = context.getItems(queryState).map((item) => (
     <div key={item.id}>
       <input type="checkbox"
         checked={item.isDone}
@@ -22,7 +37,20 @@ export function ItemList() {
 
   return (
     <div>
-      {itemElements}
+      <div>
+        <button onClick={updateQuery} name="completed" value="">
+          All items
+        </button>
+        <button onClick={updateQuery} name="completed" value="true">
+          Completed items
+        </button>
+        <button onClick={updateQuery} name="completed" value="false">
+          Open items
+        </button>
+      </div>
+      <div>
+        {itemElements}
+      </div>
     </div>
   );
 }
