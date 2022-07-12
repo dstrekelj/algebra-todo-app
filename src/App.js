@@ -1,6 +1,7 @@
 import { ItemForm } from "./components/ItemForm";
 import { useState } from "react";
 import { Item } from "./models/Item";
+import { ItemList } from "./components/ItemList";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -10,22 +11,10 @@ function App() {
     setItems((state) => [ ...state, item ]);
   }
 
-  const itemElements = items.map((item) => (
-    <div key={item.id}>
-      <input type="checkbox" name="" id="" />
-      <span>{item.text} ({item.displayCreatedAt()})</span>
-      <button type="button">Delete</button>
-    </div>
-  ));
-
   return (
     <div>
-      <div>
-        <ItemForm onSubmit={addItem} />
-      </div>
-      <div>
-        {itemElements}
-      </div>
+      <ItemForm onSubmit={addItem} />
+      <ItemList items={items} />
     </div>
   );
 }
