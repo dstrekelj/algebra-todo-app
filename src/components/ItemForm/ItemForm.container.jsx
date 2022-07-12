@@ -1,9 +1,11 @@
 import { ItemForm as Component } from "./ItemForm.component";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ItemsContext } from "../../contexts/ItemsContext";
 
 const initialState = { item: '' };
 
-export function ItemForm(props) {
+export function ItemForm() {
+  const context = useContext(ItemsContext);
   const [ state, setState ] = useState(initialState);
 
   const updateState = (event) => {
@@ -14,11 +16,7 @@ export function ItemForm(props) {
 
   const submitState = (event) => {
     event.preventDefault();
-
-    if (typeof props.onSubmit === "function") {
-      props.onSubmit(state);
-    }
-
+    context.addItem(state);
     setState(initialState);
   }
 

@@ -1,15 +1,20 @@
-export function ItemList(props) {
-  const itemElements = props.items.map((item) => (
+import { useContext } from "react";
+import { ItemsContext } from "../../contexts/ItemsContext";
+
+export function ItemList() {
+  const context = useContext(ItemsContext);
+
+  const itemElements = context.items.map((item) => (
     <div key={item.id}>
       <input type="checkbox"
         checked={item.isDone}
-        onChange={props.onMarkAsDone(item)}
+        onChange={context.markItemAsDone(item)}
       />
       <span>{item.text} ({item.displayCreatedAt()})</span>
       {item.isDone &&
         <span>&mdash; Completed at: {item.displayCompletedAt()}</span>
       }
-      <button type="button" onClick={props.onDelete(item)}>
+      <button type="button" onClick={context.deleteItem(item)}>
         Delete
       </button>
     </div>
