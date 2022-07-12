@@ -4,5 +4,5 @@
 
 - [x] Add an item
 - [x] List all items
-- [ ] Remove an item
+- [x] Remove an item
 - [ ] Mark an item as done
