@@ -1,6 +1,24 @@
 import { createContext, useEffect, useState } from "react";
 import { Item } from "../models/Item";
 
+function readItemsFromLocalStorage() {
+  return new Promise((resolve) => {
+    const storedItems = window.localStorage.getItem('todo-app');
+
+    if (storedItems === null) {
+      return resolve(null);
+    }
+
+    const itemObjects = JSON.parse(storedItems);
+
+    if (!Array.isArray(itemObjects)) {
+      return resolve(null);
+    }
+
+    return resolve(itemObjects);
+  });
+}
+
 export const ItemsContext = createContext();
 
 export function ItemsProvider(props) {
@@ -40,26 +58,18 @@ export function ItemsProvider(props) {
   useEffect(() => {
     if (initialized) return;
 
-    const storedItems = window.localStorage.getItem('todo-app');
-
-    if (storedItems === null) {
-      setInitialized(true);
-
-      return;
-    }
-
-    const itemObjects = JSON.parse(storedItems);
-
-    if (!Array.isArray(itemObjects)) {
-      setInitialized(true);
-
-      return;
-    }
-
-    const items = itemObjects.map(item => Item.fromObject(item));
-
-    setItems(items);
-    setInitialized(true);
+    readItemsFromLocalStorage()
+      .then((itemObjects) => {
+        if (itemObjects !== null) {
+          setItems(itemObjects.map(item => Item.fromObject(item)));
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setInitialized(true);
+      });
   }, [setItems, initialized, setInitialized]);
 
   useEffect(() => {
